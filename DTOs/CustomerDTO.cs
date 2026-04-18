@@ -1,0 +1,11 @@
+﻿namespace SalesApp.DTOs
+{
+    public class CustomerDTO
+    {
+        public int CustomerId { get; set; }
+        public string Name { get; set; }
+        public string Phone { get; set; }
+        public string Address {  get; set; }
+        public List<string> Orders { get; set; }
+    }
+}
