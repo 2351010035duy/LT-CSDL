@@ -149,4 +149,4 @@ Ghi chú
 
 - Dữ liệu mẫu đã được thêm sẵn
 - Hệ thống sử dụng DTO để tách dữ liệu
-- p dụng LINQ và Entity Framework để truy vấn
+- Sử dụng LINQ và Entity Framework để truy vấn
