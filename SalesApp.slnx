@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="SalesApp.Web/SalesApp.Web.csproj" Id="27784b47-b68b-4568-84f7-57623f647867" />
+  <Project Path="SalesApp/SalesApp.csproj" />
+</Solution>

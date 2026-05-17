@@ -1,0 +1,20 @@
+﻿@model SalesApp.DTOs.OrderDTO
+
+<h2>Chi tiết đơn hàng</h2>
+
+<p><strong>Mã đơn:</strong> @Model.OrderId</p>
+
+<p><strong>Khách hàng:</strong> @Model.CustomerName</p>
+
+<p><strong>Ngày đặt:</strong> @Model.OrderDate</p>
+
+<p><strong>Tổng tiền:</strong> @Model.Total</p>
+
+<p>
+    <strong>Sản phẩm:</strong>
+    @string.Join(", ", Model.Products)
+</p>
+
+<a asp-action="Index" class="btn btn-secondary">
+    Quay lại
+</a>

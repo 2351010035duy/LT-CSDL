@@ -1,0 +1,63 @@
+﻿@model List<SalesApp.DTOs.OrderDTO>
+
+@{
+    ViewData["Title"] = "Danh sách đơn hàng";
+}
+
+<h2>Danh sách đơn hàng</h2>
+
+<a asp-controller="Order"
+       asp-action="Create"
+       class="btn btn-success mb-3">
+    Thêm đơn hàng
+</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Mã</th>
+            <th>Khách hàng</th>
+            <th>Ngày đặt</th>
+            <th>Tổng tiền</th>
+            <th>Sản phẩm</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.OrderId</td>
+                <td>@item.CustomerName</td>
+                <td>@item.OrderDate</td>
+                <td>@((@item.Total * 10_000).ToString("N0", new System.Globalization.CultureInfo("vi-VN")) + " VND")</td>
+
+                <td>
+                    @string.Join(", ", item.Products)
+                </td>
+
+                <td>
+                    <a asp-action="Details"
+                           asp-route-id="@item.OrderId"
+                           class="btn btn-info btn-sm">
+                        Xem
+                    </a>
+
+                    <a asp-action="Edit"
+                           asp-route-id="@item.OrderId"
+                           class="btn btn-warning btn-sm">
+                        Sửa
+                    </a>
+
+                    <a asp-action="Delete"
+                           asp-route-id="@item.OrderId"
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('Bạn có chắc muốn xóa?')">
+                        Xóa
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

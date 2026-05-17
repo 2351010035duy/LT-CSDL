@@ -1,0 +1,223 @@
+﻿@model SalesApp.DTOs.CreateOrderViewModel
+
+@{
+    ViewData["Title"] = "Tạo hóa đơn";
+}
+
+<h2>Tạo hóa đơn</h2>
+
+<form asp-action="Create" method="post">
+
+    <div class="mb-3">
+        <label>Khách hàng</label>
+
+        <select asp-for="CustomerId"
+                asp-items="Model.Customers"
+                class="form-control">
+
+            <option value="">-- Chọn khách hàng --</option>
+
+        </select>
+    </div>
+
+    <table class="table" id="productTable">
+
+        <thead>
+            <tr>
+                <th>Sản phẩm</th>
+                <th>Số lượng</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr>
+
+                <td>
+
+                    <input type="hidden"
+                           name="Items.Index"
+                           value="0" />
+
+                    <select name="Items[0].ProductId"
+                            class="form-control productSelect">
+
+                        @foreach (var p in Model.Products)
+                        {
+                            <option value="@p.Value"
+                                    data-price="@p.Text.Split('-')[1].Trim()">
+
+                                @p.Text
+
+                            </option>
+                        }
+
+                    </select>
+
+                </td>
+
+                <td>
+
+                    <input name="Items[0].Quantity"
+                           type="number"
+                           class="form-control quantity"
+                           value="1"
+                           min="1" />
+
+                </td>
+
+                <td>
+
+                    <button type="button"
+                            class="btn btn-danger removeBtn">
+
+                        X
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+    <button type="button"
+            class="btn btn-primary"
+            id="addBtn">
+
+        Thêm sản phẩm
+
+    </button>
+
+    <hr />
+
+    <h4>
+        Tổng tiền:
+        <span id="totalPrice">0</span>
+    </h4>
+
+    <button type="submit"
+            class="btn btn-success">
+
+        Lưu hóa đơn
+
+    </button>
+
+</form>
+
+@section Scripts {
+
+    <script>
+
+        let index = 1;
+
+        function calculateTotal() {
+
+            let total = 0;
+
+            $("#productTable tbody tr").each(function () {
+
+                const product =
+                    $(this).find(".productSelect option:selected");
+
+                const price =
+                    parseFloat(product.data("price"));
+
+                const quantity =
+                    parseInt($(this)
+                    .find(".quantity").val()) || 0;
+
+                total += price * quantity;
+
+            });
+
+            $("#totalPrice").text(total);
+
+        }
+
+        $("#addBtn").click(function () {
+
+            let row = `
+            <tr>
+
+                <td>
+
+                    <input type="hidden"
+                           name="Items.Index"
+                           value="${index}" />
+
+                    <select name="Items[${index}].ProductId"
+                            class="form-control productSelect">
+
+                        @foreach (var p in Model.Products)
+                        {
+                                <option value="@p.Value"
+                    data-price="@p.Text.Split('-')[1].Trim()">
+
+                                        @p.Text
+
+                                </option>
+                        }
+
+                    </select>
+
+                </td>
+
+                <td>
+
+                    <input name="Items[${index}].Quantity"
+                           type="number"
+                           class="form-control quantity"
+                           value="1"
+                           min="1"/>
+
+                </td>
+
+                <td>
+
+                    <button type="button"
+                            class="btn btn-danger removeBtn">
+
+                        X
+
+                    </button>
+
+                </td>
+
+            </tr>
+            `;
+
+            $("#productTable tbody").append(row);
+
+            index++;
+
+            calculateTotal();
+
+        });
+
+        $(document).on("click",
+            ".removeBtn",
+            function () {
+
+                $(this).closest("tr").remove();
+
+                calculateTotal();
+
+            });
+
+        $(document).on("change keyup",
+            ".quantity, .productSelect",
+            function () {
+
+                calculateTotal();
+
+            });
+
+        calculateTotal();
+
+    </script>
+
+}

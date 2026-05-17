@@ -1,0 +1,56 @@
+﻿@model List<SalesApp.DTOs.CategoryDTO>
+
+<h2>Danh sách loại sản phẩm</h2>
+
+<a asp-controller="Category"
+       asp-action="Create"
+       class="btn btn-success">
+    Thêm Category
+</a>
+
+<br />
+<br />
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tên loại</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td>@c.CategoryId</td>
+                <td>@c.Name</td>
+
+                <td>
+                    <a asp-controller="Category"
+                           asp-action="Edit"
+                           asp-route-id="@c.CategoryId"
+                           class="btn btn-warning">
+                        Sửa
+                    </a>
+
+                    <a asp-controller="Category"
+                           asp-action="Delete"
+                           asp-route-id="@c.CategoryId"
+                           class="btn btn-danger"
+                           onclick="return confirm('Bạn có chắc muốn xóa?')">
+                        Xóa
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

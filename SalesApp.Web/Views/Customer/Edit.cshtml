@@ -1,0 +1,35 @@
+﻿@model SalesApp.DTOs.UpdateCustomerDTO
+
+<h2>Chỉnh sửa khách hàng</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.Error
+    </div>
+}
+
+<form asp-action="Edit" method="post">
+
+    <input type="hidden" asp-for="CustomerId" />
+
+    <div class="mb-3">
+        <label>Tên</label>
+        <input asp-for="Name" class="form-control" required/>
+    </div>
+
+    <div class="mb-3">
+        <label>Số điện thoại</label>
+        <input asp-for="Phone" class="form-control" required/>
+    </div>
+
+    <div class="mb-3">
+        <label>Địa chỉ</label>
+        <input asp-for="Address" class="form-control" required/>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        Cập nhật
+    </button>
+
+</form>

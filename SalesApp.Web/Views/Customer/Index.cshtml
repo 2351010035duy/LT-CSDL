@@ -1,0 +1,64 @@
+﻿@model List<SalesApp.DTOs.CustomerDTO>
+
+<h2>Danh sách khách hàng</h2>
+
+<a asp-controller="Customer"
+       asp-action="Create"
+       class="btn btn-success">
+    Thêm khách hàng
+</a>
+
+<br />
+<br />
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+<table class="table table-bordered">
+
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tên</th>
+            <th>SĐT</th>
+            <th>Địa chỉ</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td>@c.CustomerId</td>
+                <td>@c.Name</td>
+                <td>@c.Phone</td>
+                <td>@c.Address</td>
+
+                <td>
+                    <a asp-controller="Customer"
+                           asp-action="Edit"
+                           asp-route-id="@c.CustomerId"
+                           class="btn btn-warning">
+                        Sửa
+                    </a>
+
+                    <a asp-controller="Customer"
+                           asp-action="Delete"
+                           asp-route-id="@c.CustomerId"
+                           class="btn btn-danger"
+                           onclick="return confirm('Bạn có chắc muốn xóa?')">
+                        Xóa
+                    </a>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+
+</table>

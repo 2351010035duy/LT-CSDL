@@ -23,9 +23,17 @@ CREATE TABLE Categories (
 CREATE TABLE Products (
     ProductId INT PRIMARY KEY IDENTITY(1,1),
     Name NVARCHAR(100),
+
     Price DECIMAL(10,2),
+
     Stock INT,
+
+    Description NVARCHAR(500), -- ✅ THÊM MÔ TẢ
+
+    ImageUrl NVARCHAR(300), -- ✅ THÊM LINK ẢNH
+
     CategoryId INT,
+
     FOREIGN KEY (CategoryId) REFERENCES Categories(CategoryId)
 );
 
@@ -33,28 +41,35 @@ CREATE TABLE Customers (
     CustomerId INT PRIMARY KEY IDENTITY(1,1),
     Name NVARCHAR(100),
     Phone NVARCHAR(20),
-    Address NVARCHAR(200) -- ✅ THÊM MỚI
+    Address NVARCHAR(200)
 );
 
 CREATE TABLE Orders (
     OrderId INT PRIMARY KEY IDENTITY(1,1),
     CustomerId INT,
     OrderDate DATETIME DEFAULT GETDATE(),
+
     FOREIGN KEY (CustomerId) REFERENCES Customers(CustomerId)
 );
 
 CREATE TABLE OrderDetails (
     Id INT PRIMARY KEY IDENTITY(1,1),
+
     OrderId INT,
+
     ProductId INT,
+
     Quantity INT,
+
     Price DECIMAL(10,2),
+
     FOREIGN KEY (OrderId) REFERENCES Orders(OrderId),
+
     FOREIGN KEY (ProductId) REFERENCES Products(ProductId)
 );
 
 -- =============================================
--- SAMPLE DATA 
+-- SAMPLE DATA
 -- =============================================
 
 INSERT INTO Categories(Name) VALUES
@@ -64,22 +79,93 @@ INSERT INTO Categories(Name) VALUES
 (N'Màn hình'),
 (N'Thiết bị văn phòng');
 
-INSERT INTO Products(Name, Price, Stock, CategoryId) VALUES
-(N'Dell XPS 13', 2000, 10, 1),
-(N'Macbook Pro M2', 2500, 5, 1),
-(N'HP Pavilion', 1500, 8, 1),
+INSERT INTO Products
+(
+    Name,
+    Price,
+    Stock,
+    Description,
+    ImageUrl,
+    CategoryId
+)
+VALUES
 
-(N'iPhone 14', 1200, 20, 2),
-(N'Samsung S23', 1000, 15, 2),
-(N'Xiaomi 13', 800, 25, 2),
+(N'Dell XPS 13',
+ 2000,
+ 10,
+ N'Laptop cao cấp mỏng nhẹ dành cho dân văn phòng',
+ 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853',
+ 1),
 
-(N'Chuột Logitech', 50, 100, 3),
-(N'Bàn phím cơ', 120, 50, 3),
+(N'Macbook Pro M2',
+ 2500,
+ 5,
+ N'Macbook chip M2 hiệu năng mạnh',
+ 'https://images.unsplash.com/photo-1517336714739-489689fd1ca8',
+ 1),
 
-(N'Màn hình LG 27"', 300, 20, 4),
-(N'Màn hình Samsung 24"', 250, 15, 4),
+(N'HP Pavilion',
+ 1500,
+ 8,
+ N'Laptop học tập và làm việc',
+ 'https://images.unsplash.com/photo-1498050108023-c5249f4df085',
+ 1),
 
-(N'Máy in Canon', 200, 10, 5);
+(N'iPhone 14',
+ 1200,
+ 20,
+ N'Điện thoại Apple đời mới',
+ 'https://images.unsplash.com/photo-1678685888221-cda773a3dcdb',
+ 2),
+
+(N'Samsung S23',
+ 1000,
+ 15,
+ N'Smartphone Android cao cấp',
+ 'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf',
+ 2),
+
+(N'Xiaomi 13',
+ 800,
+ 25,
+ N'Điện thoại giá tốt hiệu năng cao',
+ 'https://images.unsplash.com/photo-1580910051074-3eb694886505',
+ 2),
+
+(N'Chuột Logitech',
+ 50,
+ 100,
+ N'Chuột không dây tiện lợi',
+ 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46',
+ 3),
+
+(N'Bàn phím cơ',
+ 120,
+ 50,
+ N'Bàn phím cơ gaming RGB',
+ 'https://images.unsplash.com/photo-1511467687858-23d96c32e4ae',
+ 3),
+
+(N'Màn hình LG 27"',
+ 300,
+ 20,
+ N'Màn hình IPS 27 inch',
+ 'https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc',
+ 4),
+
+(N'Màn hình Samsung 24"',
+ 250,
+ 15,
+ N'Màn hình văn phòng Full HD',
+ 'https://images.unsplash.com/photo-1522199710521-72d69614c702',
+ 4),
+
+(N'Máy in Canon',
+ 200,
+ 10,
+ N'Máy in phục vụ văn phòng',
+ 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6',
+ 5);
 
 INSERT INTO Customers(Name, Phone, Address) VALUES
 (N'Nguyễn Văn A', '0123456789', N'Hà Nội'),
@@ -112,10 +198,19 @@ INSERT INTO OrderDetails(OrderId, ProductId, Quantity, Price) VALUES
 CREATE VIEW vw_ProductWithCategory AS
 SELECT 
     p.ProductId,
+
     p.Name AS ProductName,
+
     p.Price,
+
     p.Stock,
+
+    p.Description, -- ✅ THÊM
+
+    p.ImageUrl, -- ✅ THÊM
+
     c.Name AS CategoryName
+
 FROM Products p
 JOIN Categories c ON p.CategoryId = c.CategoryId;
 
@@ -188,6 +283,7 @@ END;
 BEGIN TRANSACTION;
 
 BEGIN TRY
+
     DECLARE @OrderId INT;
 
     INSERT INTO Orders(CustomerId)
@@ -195,19 +291,39 @@ BEGIN TRY
 
     SET @OrderId = SCOPE_IDENTITY();
 
-    INSERT INTO OrderDetails(OrderId, ProductId, Quantity, Price)
-    VALUES (@OrderId, 1, 2, 2000);
+    INSERT INTO OrderDetails
+    (
+        OrderId,
+        ProductId,
+        Quantity,
+        Price
+    )
+    VALUES
+    (
+        @OrderId,
+        1,
+        2,
+        2000
+    );
 
     COMMIT;
+
 END TRY
+
 BEGIN CATCH
+
     ROLLBACK;
+
 END CATCH;
 
 -- =============================================
 -- TEST
 -- =============================================
 
+SELECT * FROM Products;
+
 SELECT * FROM vw_ProductWithCategory;
+
 SELECT dbo.fn_TotalOrder(1);
+
 EXEC sp_GetProductsByCategory 1;

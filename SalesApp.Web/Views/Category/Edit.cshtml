@@ -1,0 +1,26 @@
+﻿@model SalesApp.DTOs.UpdateCategoryDTO
+
+<h2>Chỉnh sửa Category</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.Error
+    </div>
+}
+
+<form asp-action="Edit" method="post">
+
+    <input type="hidden" asp-for="CategoryId" />
+
+    <div class="mb-3">
+        <label>Tên loại</label>
+
+        <input asp-for="Name" class="form-control" required/>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        Cập nhật
+    </button>
+
+</form>

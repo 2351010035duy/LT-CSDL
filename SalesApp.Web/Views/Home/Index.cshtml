@@ -1,0 +1,227 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model List<SalesApp.DTOs.ProductDTO>
+<div class="hero_area">
+    <div class="bg-box">
+        <img src="~/images/hero-bg.jpg" alt="">
+    </div>
+    <!-- header section strats -->
+    <header class="header_section">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg custom_nav-container ">
+                <a class="navbar-brand" asp-controller="Home"
+                       asp-action="Index">
+                    <span>
+                        AuraTech
+                    </span>
+                </a>
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class=""> </span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav  mx-auto ">
+                        <li class="nav-item active">
+                            <a class="nav-link" asp-controller="Home"
+                                   asp-action="Index">
+                                Home
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="Category"
+                                   asp-action="Index"
+                                   class="nav-link">
+                                Quản lý Category
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="Order" asp-action="Index" class="nav-link">
+                                Quản lý đơn hàng
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="Customer"
+                                   asp-action="Index"
+                                   class="nav-link">
+                                Quản lý khách hàng
+                            </a>
+                        </li>
+                    </ul>
+                    
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- end header section -->
+    
+</div>
+
+
+<!-- food section -->
+
+<section class="food_section layout_padding-bottom">
+    <div class="container">
+        
+
+        <div class="filters-content">
+            <div class="row grid">     
+                <div class="col-sm-6 col-lg-4 all burger">
+                    <div class="box">
+                        <div>
+                            <div class="img-box">
+                                <img src="https://tse3.mm.bing.net/th/id/OIP.C_S_JhWpU7LWnZIc2oHGGQAAAA?rs=1&pid=ImgDetMain&o=7&rm=3" alt="">
+                            </div>
+                            <div class="detail-box">
+                                <h5>
+                                    Kệ hàng trống
+                                </h5>
+                                <p>
+                                    Thêm gì đó vào đây đi!
+                                </p>
+                                <div class="options">
+                                    <h6>
+                                        @((0 * 10_000).ToString("N0", new System.Globalization.CultureInfo("vi-VN")) + " VND")
+                                    </h6>
+                                        
+                                </div>
+                            </div>
+                            <div class="btn-box" style="margin-bottom:10px">
+                                <a asp-controller="Product"
+                                       asp-action="Create">
+                                    Thêm sản phẩm
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @foreach (var p in Model)
+                {
+                    <div class="col-sm-6 col-lg-4 all burger">
+                        <div class="box">
+                            <div>
+                                <div class="img-box">
+                                    <img src="@p.ImageUrl" alt="">
+                                </div>
+                                <div class="detail-box">
+                                    <h5>
+                                        @p.Name
+                                    </h5>
+                                    <p>
+                                        @p.Description
+                                    </p>
+                                    <div class="options">
+                                        <h6>
+                                            @((@p.Price * 10_000).ToString("N0", new System.Globalization.CultureInfo("vi-VN")) + " VND")
+                                        </h6>
+                                        
+                                    </div>
+                                </div>
+                                <div class="btn-box" style="margin-bottom:10px">
+                                    <a asp-controller="Product"
+                                           asp-action="Index"
+                                           asp-route-id="@p.ProductId">
+                                        Sửa sản phẩm
+                                    </a>
+                                </div>
+                                <form method="post" asp-action="Delete" asp-controller="Product" asp-route-id="@p.ProductId"
+                                      onsubmit="return confirm('Bạn có chắc muốn xóa sản phẩm này?');" class="d-inline">
+                                    <button type="submit" class="btn btn-danger btn-sm" style="padding:10px">Xóa</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- end food section -->
+
+
+
+<!-- footer section -->
+<footer class="footer_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 footer-col">
+                <div class="footer_contact">
+                    <h4>
+                        Contact Us
+                    </h4>
+                    <div class="contact_link_box">
+                        <a href="">
+                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                            <span>
+                                Location
+                            </span>
+                        </a>
+                        <a href="">
+                            <i class="fa fa-phone" aria-hidden="true"></i>
+                            <span>
+                                Call +01 1234567890
+                            </span>
+                        </a>
+                        <a href="">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                            <span>
+                                demo@gmail.com
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 footer-col">
+                <div class="footer_detail">
+                    <a href="" class="footer-logo">
+                        AuraTech
+                    </a>
+                    <p>
+                        Necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with
+                    </p>
+                    <div class="footer_social">
+                        <a href="">
+                            <i class="fa fa-facebook" aria-hidden="true"></i>
+                        </a>
+                        <a href="">
+                            <i class="fa fa-twitter" aria-hidden="true"></i>
+                        </a>
+                        <a href="">
+                            <i class="fa fa-linkedin" aria-hidden="true"></i>
+                        </a>
+                        <a href="">
+                            <i class="fa fa-instagram" aria-hidden="true"></i>
+                        </a>
+                        <a href="">
+                            <i class="fa fa-pinterest" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 footer-col">
+                <h4>
+                    Opening Hours
+                </h4>
+                <p>
+                    Everyday
+                </p>
+                <p>
+                    10.00 Am -10.00 Pm
+                </p>
+            </div>
+        </div>
+        <div class="footer-info">
+            <p>
+                &copy; <span id="displayYear"></span> All Rights Reserved By
+                <a href="https://html.design/">Free Html Templates</a><br><br>
+                &copy; <span id="displayYear"></span> Distributed By
+                <a href="https://themewagon.com/" target="_blank">ThemeWagon</a>
+            </p>
+        </div>
+    </div>
+</footer>
+
