@@ -1,0 +1,8 @@
+F:\Visual studio\SalesApp\SalesApp.Web\wwwroot\css\bootstrap.css
+F:\Visual studio\SalesApp\SalesApp.Web\wwwroot\css\font-awesome.min.css
+F:\Visual studio\SalesApp\SalesApp.Web\wwwroot\css\responsive.css
+F:\Visual studio\SalesApp\SalesApp.Web\wwwroot\css\style.css
+F:\Visual studio\SalesApp\SalesApp.Web\wwwroot\css\style.css.map
+F:\Visual studio\SalesApp\SalesApp.Web\wwwroot\js\bootstrap.js
+F:\Visual studio\SalesApp\SalesApp.Web\wwwroot\js\custom.js
+F:\Visual studio\SalesApp\SalesApp.Web\wwwroot\js\jquery-3.4.1.min.js

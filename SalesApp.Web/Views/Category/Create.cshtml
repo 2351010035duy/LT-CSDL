@@ -1,24 +1,189 @@
-﻿@model SalesApp.DTOs.CreateCategoryDTO
+﻿
+@model SalesApp.DTOs.CreateCategoryDTO
 
-<h2>Thêm Category</h2>
-
-@if (ViewBag.Error != null)
-{
-    <div class="alert alert-danger">
-        @ViewBag.Error
+<div class="hero_area">
+    <div class="bg-box">
+        <img src="~/images/hero-bg.jpg" alt="">
     </div>
-}
+    <!-- header section strats -->
+    <header class="header_section">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg custom_nav-container ">
+                <a class="navbar-brand" asp-controller="Home"
+                       asp-action="Index">
+                    <span>
+                        AuraTech
+                    </span>
+                </a>
 
-<form asp-action="Create" method="post">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class=""> </span>
+                </button>
 
-    <div class="mb-3">
-        <label>Tên loại</label>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav  mx-auto ">
+                        <li class="nav-item active">
+                            <a class="nav-link" asp-controller="Home"
+                                   asp-action="Index">
+                                Home
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="Category"
+                                   asp-action="Index"
+                                   class="nav-link">
+                                Quản lý Category
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="Order" asp-action="Index" class="nav-link">
+                                Quản lý đơn hàng
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="Customer"
+                                   asp-action="Index"
+                                   class="nav-link">
+                                Quản lý khách hàng
+                            </a>
+                        </li>
+                    </ul>
+                    
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- end header section -->
+    
+</div>
+<div class="container my-5" style="background-color:#222831; padding:20px; border-radius:20px">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            
+            <div class="mb-3">
+                <a asp-action="Index" class="text-decoration-none text-muted small">
+                    <i class="fa fa-arrow-left me-1"></i> Quay lại danh sách
+                </a>
+            </div>
 
-        <input asp-for="Name" class="form-control" required/>
+            <div class="card shadow-sm border-0 rounded-3 overflow-hidden">
+                <div class="card-header bg-success text-white py-3">
+                    <h4 class="card-title mb-0 text-center text-uppercase fw-bold text-white" style="letter-spacing: 0.5px;">
+                        Thêm Danh Mục Mới
+                    </h4>
+                </div>
+                
+                <div class="card-body p-4 bg-light">
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show small mb-3" role="alert">
+                            <i class="fa fa-exclamation-circle me-1"></i> @ViewBag.Error
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+
+                    <form asp-action="Create" method="post">
+                        
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary">Tên loại danh mục</label>
+                            <input asp-for="Name"
+                                   class="form-control form-control-lg fs-6"
+                                   placeholder="Ví dụ: Linh kiện máy tính, Chuột..."
+                                   required />
+                            <div class="form-text text-muted small">Tên danh mục nên ngắn gọn và rõ ràng.</div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-lg fw-bold text-white shadow-sm">
+                                <i class="fa fa-plus-circle me-1"></i> Tạo danh mục
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
     </div>
-
-    <button type="submit" class="btn btn-success">
-        Thêm
-    </button>
-
-</form>
+</div>
+<!-- footer section -->
+<footer class="footer_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 footer-col">
+                <div class="footer_contact">
+                    <h4>
+                        Contact Us
+                    </h4>
+                    <div class="contact_link_box">
+                        <a href="">
+                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                            <span>
+                                Location
+                            </span>
+                        </a>
+                        <a href="">
+                            <i class="fa fa-phone" aria-hidden="true"></i>
+                            <span>
+                                Call +01 1234567890
+                            </span>
+                        </a>
+                        <a href="">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                            <span>
+                                demo@gmail.com
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 footer-col">
+                <div class="footer_detail">
+                    <a href="" class="footer-logo">
+                        AuraTech
+                    </a>
+                    <p>
+                        Necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with
+                    </p>
+                    <div class="footer_social">
+                        <a href="">
+                            <i class="fa fa-facebook" aria-hidden="true"></i>
+                        </a>
+                        <a href="">
+                            <i class="fa fa-twitter" aria-hidden="true"></i>
+                        </a>
+                        <a href="">
+                            <i class="fa fa-linkedin" aria-hidden="true"></i>
+                        </a>
+                        <a href="">
+                            <i class="fa fa-instagram" aria-hidden="true"></i>
+                        </a>
+                        <a href="">
+                            <i class="fa fa-pinterest" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 footer-col">
+                <h4>
+                    Opening Hours
+                </h4>
+                <p>
+                    Everyday
+                </p>
+                <p>
+                    10.00 Am -10.00 Pm
+                </p>
+            </div>
+        </div>
+        <div class="footer-info">
+            <p>
+                &copy; <span id="displayYear"></span> All Rights Reserved By
+                <a href="https://html.design/">Free Html Templates</a><br><br>
+                &copy; <span id="displayYear"></span> Distributed By
+                <a href="https://themewagon.com/" target="_blank">ThemeWagon</a>
+            </p>
+        </div>
+    </div>
+</footer>

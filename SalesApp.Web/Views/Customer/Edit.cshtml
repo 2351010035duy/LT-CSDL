@@ -1,35 +1,212 @@
 ﻿@model SalesApp.DTOs.UpdateCustomerDTO
-
-<h2>Chỉnh sửa khách hàng</h2>
-
-@if (ViewBag.Error != null)
-{
-    <div class="alert alert-danger">
-        @ViewBag.Error
+<div class="hero_area">
+    <div class="bg-box">
+        <img src="~/images/hero-bg.jpg" alt="">
     </div>
-}
+    <!-- header section strats -->
+    <header class="header_section">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg custom_nav-container ">
+                <a class="navbar-brand" asp-controller="Home"
+                       asp-action="Index">
+                    <span>
+                        AuraTech
+                    </span>
+                </a>
 
-<form asp-action="Edit" method="post">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class=""> </span>
+                </button>
 
-    <input type="hidden" asp-for="CustomerId" />
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav  mx-auto ">
+                        <li class="nav-item active">
+                            <a class="nav-link" asp-controller="Home"
+                                   asp-action="Index">
+                                Home
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="Category"
+                                   asp-action="Index"
+                                   class="nav-link">
+                                Quản lý Category
+                                
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="Order" asp-action="Index" class="nav-link">
+                                Quản lý đơn hàng
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="Customer"
+                                   asp-action="Index"
+                                   class="nav-link">
+                                Quản lý khách hàng
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                    </ul>
+                    
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- end header section -->
+    
+</div>
+<div class="container my-5" style="background-color:#222831; padding:20px; border-radius:20px">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            
+            <div class="mb-3">
+                <a asp-action="Index" class="text-decoration-none text-muted small">
+                    <i class="fa fa-arrow-left me-1"></i> Quay lại danh sách
+                </a>
+            </div>
 
-    <div class="mb-3">
-        <label>Tên</label>
-        <input asp-for="Name" class="form-control" required/>
+            <div class="card shadow-sm border-0 rounded-3 overflow-hidden">
+                <div class="card-header bg-primary text-white py-3">
+                    <h4 class="card-title mb-0 text-center text-uppercase fw-bold text-white" style="letter-spacing: 0.5px;">
+                        Cập Nhật Hồ Sơ Khách Hàng
+                    </h4>
+                </div>
+                
+                <div class="card-body p-4 bg-light">
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show small mb-3" role="alert">
+                            <i class="fa fa-exclamation-circle me-1"></i> @ViewBag.Error
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+
+                    <form asp-action="Edit" method="post">
+                        
+                        <input type="hidden" asp-for="CustomerId" />
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold text-secondary">Mã khách hàng (ID)</label>
+                            <input class="form-control bg-body-secondary text-dark fw-bold"
+                                   value="#@Model.CustomerId"
+                                   readonly />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold text-secondary">Họ và tên</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white text-muted"><i class="fa fa-user"></i></span>
+                                <input asp-for="Name" class="form-control" placeholder="Nhập tên khách hàng..." required />
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold text-secondary">Số điện thoại</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white text-muted"><i class="fa fa-phone"></i></span>
+                                <input asp-for="Phone" class="form-control" type="tel" placeholder="Ví dụ: 0912345xxx" required />
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary">Địa chỉ thường trú</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white text-muted"><i class="fa fa-map-marker-alt"></i></span>
+                                <input asp-for="Address" class="form-control" placeholder="Số nhà, tên đường, tỉnh/thành phố..." required />
+                            </div>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg fw-bold text-white shadow-sm">
+                                <i class="fa fa-save me-2"></i> Lưu cập nhật
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
     </div>
-
-    <div class="mb-3">
-        <label>Số điện thoại</label>
-        <input asp-for="Phone" class="form-control" required/>
+</div>
+<!-- footer section -->
+<footer class="footer_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 footer-col">
+                <div class="footer_contact">
+                    <h4>
+                        Contact Us
+                    </h4>
+                    <div class="contact_link_box">
+                        <a href="">
+                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                            <span>
+                                Location
+                            </span>
+                        </a>
+                        <a href="">
+                            <i class="fa fa-phone" aria-hidden="true"></i>
+                            <span>
+                                Call +01 1234567890
+                            </span>
+                        </a>
+                        <a href="">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                            <span>
+                                demo@gmail.com
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 footer-col">
+                <div class="footer_detail">
+                    <a href="" class="footer-logo">
+                        AuraTech
+                    </a>
+                    <p>
+                        Necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with
+                    </p>
+                    <div class="footer_social">
+                        <a href="">
+                            <i class="fa fa-facebook" aria-hidden="true"></i>
+                        </a>
+                        <a href="">
+                            <i class="fa fa-twitter" aria-hidden="true"></i>
+                        </a>
+                        <a href="">
+                            <i class="fa fa-linkedin" aria-hidden="true"></i>
+                        </a>
+                        <a href="">
+                            <i class="fa fa-instagram" aria-hidden="true"></i>
+                        </a>
+                        <a href="">
+                            <i class="fa fa-pinterest" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 footer-col">
+                <h4>
+                    Opening Hours
+                </h4>
+                <p>
+                    Everyday
+                </p>
+                <p>
+                    10.00 Am -10.00 Pm
+                </p>
+            </div>
+        </div>
+        <div class="footer-info">
+            <p>
+                &copy; <span id="displayYear"></span> All Rights Reserved By
+                <a href="https://html.design/">Free Html Templates</a><br><br>
+                &copy; <span id="displayYear"></span> Distributed By
+                <a href="https://themewagon.com/" target="_blank">ThemeWagon</a>
+            </p>
+        </div>
     </div>
-
-    <div class="mb-3">
-        <label>Địa chỉ</label>
-        <input asp-for="Address" class="form-control" required/>
-    </div>
-
-    <button type="submit" class="btn btn-primary">
-        Cập nhật
-    </button>
-
-</form>
+</footer>

@@ -4,220 +4,231 @@
     ViewData["Title"] = "Tạo hóa đơn";
 }
 
-<h2>Tạo hóa đơn</h2>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            
+            <div class="mb-3">
+                <a asp-controller="Order" asp-action="Index" class="text-decoration-none text-muted small">
+                    <i class="fa fa-arrow-left me-1"></i> Quay lại danh sách đơn hàng
+                </a>
+            </div>
 
-<form asp-action="Create" method="post">
+            <div class="card shadow-sm border-0 rounded-3 overflow-hidden">
+                <div class="card-header bg-success text-white py-3">
+                    <h4 class="card-title mb-0 text-center text-uppercase fw-bold text-white" style="letter-spacing: 0.5px;">
+                        <i class="fa fa-file-invoice me-2"></i> Tạo Hóa Đơn Mới
+                    </h4>
+                </div>
+                
+                <div class="card-body p-4 bg-light">
+                    <form asp-action="Create" method="post">
 
-    <div class="mb-3">
-        <label>Khách hàng</label>
+                        <div class="p-3 bg-white rounded-3 shadow-sm border mb-4">
+                            <h5 class="fw-bold text-secondary mb-3" style="font-size: 1rem;">
+                                <i class="fa fa-user me-2 text-primary"></i> 1. Thông tin khách hàng
+                            </h5>
+                            <div class="mb-2">
+                                <label class="form-label small text-muted fw-semibold">Chọn khách hàng mua hàng</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light text-muted"><i class="fa fa-address-book"></i></span>
+                                    <select asp-for="CustomerId" asp-items="Model.Customers" class="form-select form-control-lg fs-6" required>
+                                        <option value="">-- Chọn khách hàng phù hợp --</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
 
-        <select asp-for="CustomerId"
-                asp-items="Model.Customers"
-                class="form-control">
+                        <div class="p-3 bg-white rounded-3 shadow-sm border mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="fw-bold text-secondary mb-0" style="font-size: 1rem;">
+                                    <i class="fa fa-box me-2 text-warning"></i> 2. Danh sách mặt hàng mua
+                                </h5>
+                                <button type="button" class="btn btn-sm btn-primary fw-bold px-3 shadow-sm" id="addBtn">
+                                    <i class="fa fa-plus-circle me-1"></i> Thêm dòng sản phẩm
+                                </button>
+                            </div>
 
-            <option value="">-- Chọn khách hàng --</option>
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle" id="productTable">
+                                    <thead class="table-light text-uppercase fs-7 text-secondary">
+                                        <tr>
+                                            <th style="width: 65%">Tên mặt hàng / Sản phẩm</th>
+                                            <th style="width: 25%">Số lượng mua</th>
+                                            <th class="text-center" style="width: 10%">Xóa</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="productTableBody">
+                                        <tr id="emptyRow" style="display: none;">
+                                            <td colspan="3" class="text-center text-danger py-4 fw-semibold">
+                                                <i class="fa fa-exclamation-circle me-1"></i>
+                                                Vui lòng thêm ít nhất một sản phẩm vào hóa đơn trước khi lưu!
+                                            </td>
+                                        </tr>
 
-        </select>
+                                        <tr class="product-item-row">
+                                            <td>
+                                                <input type="hidden" name="Items.Index" value="0" />
+                                                <select name="Items[0].ProductId" class="form-select productSelect">
+                                                    <option value="">-- Chọn sản phẩm --</option>
+                                                    @foreach (var p in Model.Products)
+                                                    {
+                                                        <option value="@p.Value" data-price="@p.Text.Split('-')[1].Trim()">
+                                                            @p.Text
+                                                        </option>
+                                                    }
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input name="Items[0].Quantity" type="number" class="form-control quantity" value="1" min="1" />
+                                            </td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-sm btn-outline-danger removeBtn" title="Xóa dòng này">
+                                                    <i class="fa fa-times"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row align-items-center justify-content-between pt-2 border-top">
+                            <div class="col-md-6 mb-3 mb-md-0 text-center text-md-start">
+                                <h4 class="fw-bold text-secondary mb-0">
+                                    Thành tiền:
+                                    <span class="text-success fs-3 fw-bold ms-2" id="totalPrice">0</span>
+                                    <span class="text-success fs-5 fw-bold">đ</span>
+                                </h4>
+                            </div>
+                            <div class="col-md-5 text-center text-md-end">
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-success btn-lg fw-bold text-white shadow-sm py-2">
+                                        <i class="fa fa-save me-2"></i> Xác nhận lưu hóa đơn
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
     </div>
-
-    <table class="table" id="productTable">
-
-        <thead>
-            <tr>
-                <th>Sản phẩm</th>
-                <th>Số lượng</th>
-                <th></th>
-            </tr>
-        </thead>
-
-        <tbody>
-
-            <tr>
-
-                <td>
-
-                    <input type="hidden"
-                           name="Items.Index"
-                           value="0" />
-
-                    <select name="Items[0].ProductId"
-                            class="form-control productSelect">
-
-                        @foreach (var p in Model.Products)
-                        {
-                            <option value="@p.Value"
-                                    data-price="@p.Text.Split('-')[1].Trim()">
-
-                                @p.Text
-
-                            </option>
-                        }
-
-                    </select>
-
-                </td>
-
-                <td>
-
-                    <input name="Items[0].Quantity"
-                           type="number"
-                           class="form-control quantity"
-                           value="1"
-                           min="1" />
-
-                </td>
-
-                <td>
-
-                    <button type="button"
-                            class="btn btn-danger removeBtn">
-
-                        X
-
-                    </button>
-
-                </td>
-
-            </tr>
-
-        </tbody>
-
-    </table>
-
-    <button type="button"
-            class="btn btn-primary"
-            id="addBtn">
-
-        Thêm sản phẩm
-
-    </button>
-
-    <hr />
-
-    <h4>
-        Tổng tiền:
-        <span id="totalPrice">0</span>
-    </h4>
-
-    <button type="submit"
-            class="btn btn-success">
-
-        Lưu hóa đơn
-
-    </button>
-
-</form>
+</div>
 
 @section Scripts {
-
     <script>
-
         let index = 1;
 
-        function calculateTotal() {
+        // Hàm cập nhật trạng thái ẩn/hiện và khóa các tùy chọn trùng lặp
+        function updateProductOptions() {
+            let selectedValues = [];
 
-            let total = 0;
-
-            $("#productTable tbody tr").each(function () {
-
-                const product =
-                    $(this).find(".productSelect option:selected");
-
-                const price =
-                    parseFloat(product.data("price"));
-
-                const quantity =
-                    parseInt($(this)
-                    .find(".quantity").val()) || 0;
-
-                total += price * quantity;
-
+            // Thu thập tất cả các ID sản phẩm đang được chọn
+            $(".productSelect").each(function () {
+                let val = $(this).val();
+                if (val) {
+                    selectedValues.push(val);
+                }
             });
 
-            $("#totalPrice").text(total);
+            // Duyệt qua từng ô select và ẩn/khóa các tùy chọn đã bị chọn ở ô khác
+            $(".productSelect").each(function () {
+                let currentSelect = $(this);
+                let currentVal = currentSelect.val();
 
+                currentSelect.find("option").each(function () {
+                    let optionVal = $(this).val();
+                    
+                    // Bỏ qua tùy chọn mặc định rỗng
+                    if (!optionVal) return;
+
+                    // Nếu option này đã được chọn ở một dòng KHÁC dòng hiện tại thì khóa nó lại
+                    if (selectedValues.includes(optionVal) && optionVal !== currentVal) {
+                        $(this).prop("disabled", true);
+                    } else {
+                        $(this).prop("disabled", false);
+                    }
+                });
+            });
         }
 
+        function calculateTotal() {
+            let total = 0;
+            
+            let productRowCount = $("#productTable tbody tr.product-item-row").length;
+
+            if (productRowCount === 0) {
+                $("#emptyRow").show();
+                $("button[type='submit']").prop("disabled", true).addClass("opacity-50");
+                $("#totalPrice").text("0");
+                return;
+            } else {
+                $("#emptyRow").hide();
+                $("button[type='submit']").prop("disabled", false).removeClass("opacity-50");
+            }
+
+            $("#productTable tbody tr.product-item-row").each(function () {
+                const product = $(this).find(".productSelect option:selected");
+                const price = parseFloat(product.data("price")) || 0;
+                const quantity = parseInt($(this).find(".quantity").val()) || 0;
+                total += price * quantity;
+            });
+            
+            $("#totalPrice").text((total * 10000).toLocaleString('vi-VN'));
+        }
+
+        // Sự kiện: Bấm nút thêm sản phẩm mới
         $("#addBtn").click(function () {
-
             let row = `
-            <tr>
-
+            <tr class="product-item-row">
                 <td>
-
-                    <input type="hidden"
-                           name="Items.Index"
-                           value="${index}" />
-
-                    <select name="Items[${index}].ProductId"
-                            class="form-control productSelect">
-
+                    <input type="hidden" name="Items.Index" value="${index}" />
+                    <select name="Items[${index}].ProductId" class="form-select productSelect" required>
+                        <option value="">-- Chọn sản phẩm --</option>
                         @foreach (var p in Model.Products)
                         {
-                                <option value="@p.Value"
-                    data-price="@p.Text.Split('-')[1].Trim()">
-
+                                <option value="@p.Value" data-price="@p.Text.Split('-')[1].Trim()">
                                         @p.Text
-
                                 </option>
                         }
-
                     </select>
-
                 </td>
-
                 <td>
-
-                    <input name="Items[${index}].Quantity"
-                           type="number"
-                           class="form-control quantity"
-                           value="1"
-                           min="1"/>
-
+                    <input name="Items[${index}].Quantity" type="number" class="form-control quantity" value="1" min="1"/>
                 </td>
-
-                <td>
-
-                    <button type="button"
-                            class="btn btn-danger removeBtn">
-
-                        X
-
+                <td class="text-center">
+                    <button type="button" class="btn btn-sm btn-outline-danger removeBtn" title="Xóa dòng này">
+                        <i class="fa fa-times"></i>
                     </button>
-
                 </td>
-
             </tr>
             `;
-
             $("#productTable tbody").append(row);
-
             index++;
-
             calculateTotal();
-
+            updateProductOptions(); // Cập nhật lại danh sách khóa trùng cho dòng mới tạo
         });
 
-        $(document).on("click",
-            ".removeBtn",
-            function () {
+        // Sự kiện: Bấm nút xóa dòng sản phẩm
+        $(document).on("click", ".removeBtn", function () {
+            $(this).closest("tr").remove();
+            calculateTotal();
+            updateProductOptions(); // Tính toán lại danh sách khóa vì một sản phẩm vừa được giải phóng
+        });
 
-                $(this).closest("tr").remove();
+        // Sự kiện: Thay đổi số lượng hoặc chọn sản phẩm khác
+        $(document).on("change keyup", ".quantity, .productSelect", function () {
+            calculateTotal();
+            if ($(this).hasClass("productSelect")) {
+                updateProductOptions(); // Chỉ chạy khóa trùng khi người dùng đổi sản phẩm
+            }
+        });
 
-                calculateTotal();
-
-            });
-
-        $(document).on("change keyup",
-            ".quantity, .productSelect",
-            function () {
-
-                calculateTotal();
-
-            });
-
+        // Khởi chạy kiểm tra lần đầu khi vừa tải xong trang
         calculateTotal();
-
+        updateProductOptions();
     </script>
-
 }

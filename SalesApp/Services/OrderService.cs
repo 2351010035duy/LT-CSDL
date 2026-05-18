@@ -86,35 +86,7 @@ namespace SalesApp.Services
 
             _repo.Delete(order);
         }
-        public void Update(int id, UpdateOrderDTO dto)
-        {
-            var order = _repo.GetById(id);
-
-            if (order == null)
-                throw new Exception("Hóa đơn không tồn tại!");
-
-            order.CustomerId = dto.CustomerId;
-
-            order.OrderDetails.Clear();
-
-            foreach (var item in dto.Items)
-            {
-                var product = _productRepo.GetById(item.ProductId);
-
-                if (product == null)
-                    throw new Exception($"Sản phẩm {item.ProductId} không tồn tại!");
-
-                order.OrderDetails.Add(new OrderDetail
-                {
-                    OrderId = order.OrderId,
-                    ProductId = item.ProductId,
-                    Quantity = item.Quantity,
-                    Price = product.Price
-                });
-            }
-
-            _repo.Update(order);
-        }
+        
 
     }
 }

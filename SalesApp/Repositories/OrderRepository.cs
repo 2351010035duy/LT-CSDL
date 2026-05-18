@@ -53,31 +53,6 @@ namespace SalesApp.Repositories
                 throw;
             }
         }
-        public void Update(Order order)
-        {
-            using var transaction = _context.Database.BeginTransaction();
-
-            try
-            {
-                var oldDetails = _context.OrderDetails
-                    .Where(x => x.OrderId == order.OrderId)
-                    .ToList();
-
-                _context.OrderDetails.RemoveRange(oldDetails);
-
-                _context.OrderDetails.AddRange(order.OrderDetails);
-
-                _context.Orders.Update(order);
-
-                _context.SaveChanges();
-
-                transaction.Commit();
-            }
-            catch
-            {
-                transaction.Rollback();
-                throw;
-            }
-        }
+        
     }
 }

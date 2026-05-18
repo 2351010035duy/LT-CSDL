@@ -1,4 +1,4 @@
-﻿@model SalesApp.DTOs.OrderDTO
+﻿@* @model SalesApp.DTOs.OrderDTO
 
 <h2>Chi tiết đơn hàng</h2>
 
@@ -17,4 +17,113 @@
 
 <a asp-action="Index" class="btn btn-secondary">
     Quay lại
-</a>
+</a> *@
+@model SalesApp.DTOs.OrderDTO
+
+@{
+    ViewData["Title"] = "Chi tiết đơn hàng";
+}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            
+            <div class="mb-3 d-flex justify-content-between align-items-center">
+                <a asp-action="Index" class="text-decoration-none text-muted small">
+                    <i class="fa fa-arrow-left me-1"></i> Quay lại danh sách
+                </a>
+                <button class="btn btn-sm btn-outline-secondary" onclick="window.print()">
+                    <i class="fa fa-print me-1"></i> In đơn hàng
+                </button>
+            </div>
+
+            <div class="card shadow border-0 rounded-3 overflow-hidden">
+                <div class="card-header bg-dark text-white p-4">
+                    <div class="row align-items-center">
+                        <div class="col-sm-6 text-center text-sm-start">
+                            <h4 class="mb-0 text-uppercase fw-bold text-white" style="letter-spacing: 1px;">
+                                Chi Tiết Đơn Hàng
+                            </h4>
+                            <span class="text-info fw-bold fs-5">#@Model.OrderId</span>
+                        </div>
+                        <div class="col-sm-6 text-center text-sm-end mt-2 mt-sm-0">
+                            <span class="badge bg-success px-3 py-2 rounded-pill text-uppercase">
+                                <i class="fa fa-check-circle me-1"></i> Đã hoàn thành
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body p-4 bg-white">
+                    <div class="row mb-4 pb-3 border-bottom">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <h6 class="text-muted text-uppercase fw-bold mb-2" style="font-size: 0.8rem;">Thông tin khách hàng</h6>
+                            <div class="d-flex align-items-center text-dark fw-bold fs-5 mb-1">
+                                <i class="fa fa-user-circle text-secondary me-2"></i> @Model.CustomerName
+                            </div>
+                        </div>
+                        <div class="col-sm-6 text-sm-end">
+                            <h6 class="text-muted text-uppercase fw-bold mb-2" style="font-size: 0.8rem;">Thời gian đặt hàng</h6>
+                            <div class="text-secondary fw-semibold">
+                                <i class="fa fa-calendar-alt me-1"></i> @Model.OrderDate
+                            </div>
+                        </div>
+                    </div>
+
+                    <h6 class="text-muted text-uppercase fw-bold mb-3" style="font-size: 0.8rem;">Danh mục mặt hàng</h6>
+                    <div class="table-responsive mb-4">
+                        <table class="table table-bordered align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="text-center" style="width: 10%">STT</th>
+                                    <th>Tên sản phẩm / Mặt hàng</th>
+                                    <th class="text-end" style="width: 25%">Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Products != null && Model.Products.Any())
+                                {
+                                    int index = 1;
+                                    @foreach (var prod in Model.Products)
+                                    {
+                                        <tr>
+                                            <td class="text-center text-secondary fw-bold">@index</td>
+                                            <td class="fw-semibold text-dark">@prod</td>
+                                            <td class="text-end">
+                                                <span class="badge bg-info text-white px-2 py-1 small fw-normal">Đã kiểm kho</span>
+                                            </td>
+                                        </tr>
+                                        index++;
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="3" class="text-center text-muted py-3">Không có sản phẩm trong đơn hàng này.</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="row justify-content-end">
+                        <div class="col-sm-6 col-md-5">
+                            <div class="d-flex justify-content-between align-items-center border-top pt-3">
+                                <span class="fw-bold text-secondary text-uppercase fs-6">Thành tiền:</span>
+                                <span class="fw-bold text-success fs-4">
+                                    @((Model.Total * 10_000).ToString("N0", new System.Globalization.CultureInfo("vi-VN")) + " đ")
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="card-footer bg-light text-center py-3">
+                    <small class="text-muted">Cảm ơn bạn đã sử dụng dịch vụ của hệ thống AuraTech Admin</small>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

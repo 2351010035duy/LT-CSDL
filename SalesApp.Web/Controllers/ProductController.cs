@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using SalesApp.DTOs;
 using SalesApp.Services;
 namespace SalesApp.Web.Controllers
@@ -13,11 +14,6 @@ namespace SalesApp.Web.Controllers
             _productService = productService;
             _categoryService = categoryService;
         }
-        //public IActionResult Index(int id)
-        //{
-        //    var product = _productService.Get(id);
-        //    return View(product);
-        //}
         [HttpGet]
         public IActionResult Create()
         {
@@ -53,12 +49,33 @@ namespace SalesApp.Web.Controllers
                 })
                 .ToList();
         }
+        //[HttpPost]
+        //public IActionResult Delete(int id)
+        //{
+
+        //    _productService.Delete(id);
+
+        //    return RedirectToAction("Index", "Home");
+        //}
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
         {
-            
-            _productService.Delete(id);
+            try
+            {
+               
+                _productService.Delete(id);
 
+             
+                TempData["Success"] = "Xóa sản phẩm thành công!";
+            }
+            catch (Exception ex)
+            {
+                
+                TempData["Error"] = ex.Message;
+            }
+
+          
             return RedirectToAction("Index", "Home");
         }
         [HttpGet]
